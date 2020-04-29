@@ -1,0 +1,640 @@
+# Type schema. Eventually I would like to generate the types from this, but for
+# the moment it is just a record. Transcribed from https://www.ravelry.com/api.
+# TODO: Maybe use OpenAPI?
+#
+# Naming conventions:
+#   Type (list) → TypeList
+#   Type (full) → Type
+#   Type (POST) → TypePost
+#
+# Intrinsics:
+#   timestamp: string encoded date "2006/01/02 15:04:05 -0700"
+#   object: any JSON object, not specified
+#   decimal: not sure what this is; string-encoded currency?
+#   unknown: same as object, where the schema doesn't say
+#
+# All fields are required by default. A field name ending ? is optional.
+# If the type name ends ?, its fields are optional by default, and a field name
+# ending ! is required.
+types:
+  Activity:
+    activity_type_id: int
+    activity_type_key: string
+    created_at: timestamp
+    descriptive_title: string
+    id: int
+    photo: Photo
+    target_id: int
+    target_uri: string
+    title: string
+    user: User
+
+  Ad:
+    logo_url?: string
+    target_url: string
+
+  AttributeGroup:
+    children: []AttributeGroup
+    id: int
+    name: string
+    pattern_attributes: []PatternAttribute
+    permalink: string
+
+  BookmarkList:
+    comment: string
+    created_at: timestamp
+    favorited: object
+    id: int
+    tag_list: string # space-separated
+    type: enum BookmarkType
+
+  Bookmark:
+    bundles: []Bundle
+    comment: string
+    created_at: timestamp
+    favorited: Object
+    id: int
+    tag_list: string # space-separated
+    type: enum BookmarkType
+
+  BookmarkExport:
+    bundles: []BundleList
+    comment: string
+    created_at: timestamp
+    favorited: object
+    id: int
+    tag_list?: string # space-separated
+    type: enum BookmarkType
+
+  BundleList:
+    bundle_cover?: Photo
+    bundled_items_count?: int
+    first_photo?: Photo
+    id: int
+    name: string
+    notes?: string
+    user: UserSmall
+    
+  Bundle:
+    bundle_cover?: Photo
+    bundled_items: []BundledItemList
+    bundled_items_count?: int
+    created_at: timestamp
+    favorites_count?: int
+    first_photo?: Photo
+    id: int
+    name: string
+    notes?: string
+    permalink: string
+    updated_at: timestamp
+    user: UserSmall
+
+  BundleExport:
+    bundle_cover?: Photo
+    bundled_items: []BundledItemList
+    bundled_items_count?: int
+    created_at: timestamp
+    favorites_count?: int
+    first_photo?: Photo
+    id: int
+    name: string
+    notes?: string
+    permalink: string
+    updated_at: timestamp
+
+  BundlePost:
+    name: string
+    notes?: string
+    owner_id?: int
+    owner_type?: string
+
+  BundledItemSmall:
+    bundle_id: int
+    id: int
+    item_id: int
+    item_type: enum BundledItemType
+    user: UserSmall
+  
+  BundledItemList:
+    bookmark?: BookmarkList
+    bundle_id: Int
+    created_at: timestamp
+    id: int
+    item_id: int
+    item_type: enum BundledItemType
+    notes?: string
+    updated_at: timestamp
+
+  BundledItem:
+    bookmark?: Bookmark
+    bundle_id: int
+    created_at: timestamp
+    id: int
+    item_id: int
+    item_type: enum BundledItemType
+    notes?: string
+    updated_at: timestamp
+    user: UserSmall
+
+  BundledItemPost:
+    bookmark_id: int
+    bundle_id: int
+    item_id: int
+    item_type: enum BundledItemType
+    notes?: string
+    user_id: int
+
+  Cart:
+    cart_items: []CartItem
+    currency: string # three-letter currency code, e.g., USD
+    id: int
+    store_id: int
+
+  CartItemList:
+    cart_id: int
+    currency: string
+    id: int
+    product: []ProductList
+
+  CartItem:
+    cart_id: int
+    currency: string
+    id: int
+    product: []Product
+
+  Collection:
+    id: int
+    permalink: string
+    tag_names: []string
+    title: string
+
+  ColorFamily:
+    color?: string # HTML color code
+    id: int
+    name: string
+    permalink: string
+    spectrum_order: int
+
+  CombinedCart:
+    cart_items: []CartItem
+    created_at: timestamp
+    created_by_user_id: int
+    id: int
+    shop_customer: ShopCustomer
+    updated_at: timestamp
+
+  CombinedCartPost:
+    shop_customer: ShopCustomerPost
+
+  Comment:
+    comment_html: string
+    created_at: timestamp
+    highlighted_project?: Project
+    id: int
+    replies: []Comment
+    user: UserSmall
+
+  CommentHistory:
+    comment_html: string
+    commentable?: bool
+    created_at: timestamp
+    id: int
+    user_id: int
+
+  CommentFull:
+    comment_html: string
+    created_at: timestamp
+    highlighted_project?: Project
+    id: int
+    replies: []Comment
+    user: UserSmall
+
+  CommentExport:
+    comment_html: string
+    created_at: timestamp
+    id: int
+
+  Craft:
+    id: int
+    name: string
+    permalink: string
+
+  DeliveryList:
+    created_at: timestamp
+    emailed_at: timestamp
+    id: int
+    products: []Product
+
+  DeliveryReceipt:
+    delivery_url: string
+    emailed_at: timestamp
+    id: int
+    product_attachments: []ProductAttachmentReceipt
+    scheduled_for_sending: bool
+
+  Document:
+    bytes: int
+    content_type: string  # MIME type
+    filename: string
+    id: int
+    notes?: string
+    thumbnail_url: string
+
+  DownloadLink:
+    activated_at: timestamp
+    expires_at: timestamp
+    url: string
+
+  FiberAttribute:
+    fiber_attribute_group_id: int
+    id: int
+    name: string
+    permalink: string
+
+  FiberAttributeGroup:
+    id: int
+    name: string
+    parent_id: string
+    permalink: string
+
+  FiberCategory:
+    id: int
+    name: string
+    parent?: object
+    permalink: string
+    
+  FiberCategoryList:
+    children: []FiberCategory
+    id: int
+    name: string
+    permalink: string
+    short_name: string
+
+  FiberPack:
+    id: int
+
+  FiberPackPost:
+    color_family_id?: int
+    colorway?: string
+    fiber_stash_id: int
+    personal_brand?: string
+    personal_name?: string
+    purchased_at?: string
+    purchased_city?: string
+    purchased_country_id?: int
+    purchased_state_id?: int
+    purchased_url: string
+    shop_id?: int
+    spinning_project_id: string
+
+  FiberStash:
+    colorway_name?: string
+    comments_count: int
+    created_at: timestamp
+    favorites_count: int
+    fiber_company_name?: string
+    first_photo: Photo
+    has_photo?: bool
+    id: int
+    location?: string
+    long_name?: string
+    name?: string
+    permalink: string
+    stash_status?: StashStatus
+    updated_at: timestamp
+    user: UserSmall
+    user_id: int
+
+  FiberStashList: =FiberStash
+
+  FiberStashFull:
+    colorway_name?: string
+    comments_count: int
+    created_at: timestamp
+    favorites_count: int
+    fiber_company_name?: string
+    fiber_packs: FiberPackStash
+    has_photo?: bool
+    id: int
+    location?: string
+    long_name?: string
+    name?: string
+    notes_html: string
+    permalink: string
+    photos: PhotoFull
+    stash_status?: StashStatus
+    updated_at: timestamp
+    user?: UserSmall
+    user_id: int
+
+  FiberStashExport: =FiberStashFull
+
+  FiberStashPost:
+    fiber_company_name?: string
+    fiber_pack?: object
+    location?: string
+    name?: string
+    notes?: string
+    stash_status_id: Int
+
+  FiberType:
+    animal_fiber: bool
+    id: int
+    name: string
+    synthetic: bool
+    vegetable_fiber: bool
+
+  Forum:
+    id: int
+    name: string
+    permalink: string
+    sort_order: int
+    topics_count: int
+
+  ForumList: =Forum
+
+  ForumPost:
+    created_at: timestamp
+    deleted: bool
+    editable: bool
+    id: int
+    parent_post_id?: int
+    parent_post_number?: int
+    post_number: int
+    reply_count: int
+    topic: TopicList
+    topic_id: int
+    updated_at: timestamp
+    user: UserSmall
+
+  ForumPostList:
+    body?: object
+    body_html?: string
+    created_at: timestamp
+    deleted: bool
+    editable: bool
+    id: int
+    parent_post_id?: int
+    parent_post_number?: int
+    parent_post_user?: UserSmall
+    post_number: int
+    reply_count: int
+    topic_id: int
+    updated_at: timestamp
+    user?: UserSmall
+
+  ForumPostFull: =ForumPostList
+  ForumPostExport: =ForumPostList
+
+  ForumPreference:
+    forum: Forum
+    position: int
+
+  ForumSet:
+    default?: object
+    id: int
+    name: string
+    permalink: string
+    selected_forums: []object
+    sort_order?: int
+
+  ForumStatisticSummary:
+    forum_id: int
+    new_topics_30day: int
+    new_topics_7day: int
+    new_topics_avg: int
+    pageviews_30day: int
+    pageviews_7day: int
+    pageviews_avg: int
+    posts_30day: int
+    posts_7day: int
+    posts_avg: int
+    unique_pageviews_30day: int
+    unique_pageviews_7day: int
+    unique_pageviews_avg: int
+
+  FriendshipList:
+    created_at: timestamp
+    friend_avatar: bytes # photo hash
+    friend_id?: int
+    friend_user_id: int
+    friend_username: User
+    id: int
+    tag_names: []string
+
+  Friendship:
+    created_at: timestamp
+    friend_avatar: bytes # photo hash
+    friend_user: User
+    friend_user_id: int
+    friend_username: User
+    id: int
+    tag_hames: []string
+
+  Group:
+    badge_url?: string
+    banner_url?: string
+    created_at: timestamp
+    forum: ForumList
+    forum_id: int
+    id: int
+    mature: bool
+    name: string
+    permalink: string
+    short_description: string
+
+  InStoreSale:
+    deliveries: []DeliveryReceipt
+    id: int
+    invoice: InvoiceReceipt
+    seller_store_name: string
+
+  InvoiceCart:
+    id?: int
+    invoice_number: int
+    paid: boolean
+    payment_reference?: string
+
+  InvoiceReceipt: =InvoiceCart
+
+  InvoiceSale:
+    amount_due?: decimal
+    amount_due_to_lys?: decimal
+    bill_to_email?: string
+    bill_to_name?: string
+    id?: int
+    invoice_date: timestamp
+    invoice_line_items: []InvoiceLineItem
+    invoice_number: int
+    paid: bool
+    payment_reference?: string
+    ravelry_user_id?: int
+    ravelry_username?: string
+
+  InvoiceLineItem:
+    amount: decimal
+    id: int
+    product_id?: int
+    promotion_id?: int
+    promotional_discount_applied?: decimal
+    title?: string
+
+  Message:List:
+    id: int
+    message_type_name: string
+    parent_message_id?: int
+    read_message: bool
+    recipient: User
+    replied: bool
+    replied_at?: timestamp
+    sender: User
+    sent_at: timestamp
+    subject: string
+
+  Message:
+    content_html?: string
+    folder_name: string
+    id: int
+    message_type_name: string
+    parent_message_id?: int
+    read_message: bool
+    recipient: User
+    replied: bool
+    replied_at?: timestamp
+    sender: User
+    sent_at: timestamp
+    subject: string
+
+  MessageExport: =Message
+
+  MessagePost:
+    content: string
+    recipient_user_id?: int
+    recipient_username?: string
+    subject: string
+
+  NeedleRecordSmall:
+    comment: string
+    id: int
+    needle_type_id: int
+
+  NeedleRecord:
+    comment: string
+    id: int
+    needle_type: string
+    needle_type_id: int
+
+  NeedleSizeList:
+    hook: string
+    id: int
+    metric: int
+    name?: string
+    pretty_metric?: string
+    us: string
+
+  NeedleSize: =NeedleSizeList
+
+  NeedleSizePost:
+    metric: int
+
+  NeedleType:
+    description: string
+    id: int
+    length: int
+    metric_name: string
+    name?: string
+    needle_size_id: int
+    type_name: string
+
+  PackStash?:
+    color_attributes: unknown
+    color_family_id: string
+    colorway: string
+    dye_lot: string
+    grams_per_skein: unknown
+    id: unknown
+    meters_per_skein: unknown
+    ounces_per_skein: unknown
+    personal_name: string
+    prefer_metric_length: unknown # bool?
+    prefer_metric_weight: unknown # bool?
+    primary_pack_id: int
+    project_id: int
+    quantity_description: unknown
+    shop_id: int
+    shop_name: string
+    skeins: string
+    stash_id: int
+    thread_size: unknown
+    total_grams: unknown
+    total_meters: unknown
+    total_ounces: unknown
+    total_yards: unknown
+    yards_per_skein: unknown
+    yarn_id: int
+
+  # TODO: Fill in the rest of these.
+  Page:
+  Pattern:
+  PatternAttribute:
+  PatternAuthor:
+  PatternCategory:
+  PatternNeedleSize:
+  PatternSource:
+  Photo:
+  Printing:
+  Product:
+  ProductAttachment:
+  Project:
+  ProjectStatus:
+  QueuedProject:
+  QueuedStash:
+  SavedSearch:
+  Shop:
+  ShopCustomer:
+  ShopSchedule:
+  SocialSite:
+  Stash:
+  StashStatus:
+  Store:
+  Tool:
+  Topic:
+  UnifiedStash:
+  User:
+  UserSite:
+  Volume:
+  VolumeAttachment:
+  Yarn:
+  YarnAttributeGroup:
+  YarnCompany:
+  YarnFiber:
+  YarnWeight:
+
+enums:
+  BookmarkType:
+    - type: string
+      values:
+        - designer
+        - forumpost
+        - pattern
+        - project
+        - stash
+        - yarn
+        - yarnbrand
+        - yarnshop
+
+  BundledItemType:
+    - type: string
+      values:
+        - bundle
+        - clipping
+        - designer
+        - fiber_stash
+        - forum_post
+        - pattern
+        - pattern_source
+        - project
+        - shop
+        - stash
+        - yarn
+        - yarn_company
