@@ -21,6 +21,7 @@ type HTTPClient interface {
 // API is the base URL of the production API endpoint.
 const API = "https://api.ravelry.com"
 
+// A Client is a client for the Ravelry API.
 type Client struct {
 	// The base URL of the API endpoint. If empty, use the production API.
 	API string
