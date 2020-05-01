@@ -13,6 +13,7 @@ const TimeFormat = "2006/01/02 15:04:05 -0700"
 // A Date represents a timestamp as encoded by the Ravelry API.
 type Date time.Time
 
+// UnmarshalJSON implements json.Unmarshaler to decode a date from a string.
 func (d *Date) UnmarshalJSON(data []byte) error {
 	var stamp string
 	if err := json.Unmarshal(data, &stamp); err != nil {
@@ -26,6 +27,7 @@ func (d *Date) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// MarshalJSON implements json.Marshaler to encode a date as a string.
 func (d Date) MarshalJSON() ([]byte, error) {
 	return []byte(`"` + time.Time(d).Format(TimeFormat) + `"`), nil
 }
