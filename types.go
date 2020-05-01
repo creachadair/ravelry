@@ -28,3 +28,18 @@ func (ts *Timestamp) UnmarshalJSON(data []byte) error {
 func (ts Timestamp) MarshalJSON() ([]byte, error) {
 	return []byte(`"` + time.Time(ts).Format(TimeFormat) + `"`), nil
 }
+
+// PageInfo records the request  parameters controlling pagination.
+type PageInfo struct {
+	Page     int `json:"page,omitempty"`
+	PageSize int `json:"page_size,omitempty"`
+}
+
+// A Paginator is sent in replies large enough to require pagination.
+type Paginator struct {
+	PageCount int `json:"page_count"`
+	Page      int `json:"page"`
+	PageSize  int `json:"page_size"`
+	Results   int `json:"results"`
+	LastPage  int `json:"last_page"`
+}
